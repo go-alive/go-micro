@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/asim/go-micro/v3/config/source"
-	"github.com/asim/go-micro/v3/config/source/env"
-	"github.com/asim/go-micro/v3/config/source/file"
-	"github.com/asim/go-micro/v3/config/source/memory"
+	"github.com/go-alive/go-micro/config/source"
+	"github.com/go-alive/go-micro/config/source/env"
+	"github.com/go-alive/go-micro/config/source/file"
+	"github.com/go-alive/go-micro/config/source/memory"
 )
 
 func createFileForIssue18(t *testing.T, content string) *os.File {
@@ -158,7 +158,7 @@ func TestConfigWatcherDirtyOverrite(t *testing.T) {
 	}
 	runtime.Gosched()
 
-	for i := range ss {
+	for i, _ := range ss {
 		k := fmt.Sprintf("key%d", i)
 		v := fmt.Sprintf("val%d", i)
 		equalS(t, conf.Get(k).String(""), v)

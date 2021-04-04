@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/asim/go-micro/v3/api/resolver"
-	"github.com/asim/go-micro/v3/api/resolver/vpath"
-	"github.com/asim/go-micro/v3/registry"
+	"github.com/go-alive/go-micro/api/resolver"
+	"github.com/go-alive/go-micro/api/resolver/vpath"
+	"github.com/go-alive/go-micro/registry"
 )
 
 type Options struct {

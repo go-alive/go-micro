@@ -13,10 +13,10 @@ import (
 	"sync"
 	"time"
 
-	maddr "github.com/asim/go-micro/v3/util/addr"
-	"github.com/asim/go-micro/v3/util/buf"
-	mnet "github.com/asim/go-micro/v3/util/net"
-	mls "github.com/asim/go-micro/v3/util/tls"
+	maddr "github.com/go-alive/go-micro/util/addr"
+	"github.com/go-alive/go-micro/util/buf"
+	mnet "github.com/go-alive/go-micro/util/net"
+	mls "github.com/go-alive/go-micro/util/tls"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -592,7 +592,7 @@ func (h *httpTransport) String() string {
 	return "http"
 }
 
-func NewHTTPTransport(opts ...Option) *httpTransport {
+func newHTTPTransport(opts ...Option) *httpTransport {
 	var options Options
 	for _, o := range opts {
 		o(&options)

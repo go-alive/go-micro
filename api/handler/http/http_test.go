@@ -6,16 +6,17 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/asim/go-micro/v3/api/handler"
-	"github.com/asim/go-micro/v3/api/resolver"
-	"github.com/asim/go-micro/v3/api/resolver/vpath"
-	"github.com/asim/go-micro/v3/api/router"
-	regRouter "github.com/asim/go-micro/v3/api/router/registry"
-	"github.com/asim/go-micro/v3/registry"
+	"github.com/go-alive/go-micro/api/handler"
+	"github.com/go-alive/go-micro/api/resolver"
+	"github.com/go-alive/go-micro/api/resolver/vpath"
+	"github.com/go-alive/go-micro/api/router"
+	regRouter "github.com/go-alive/go-micro/api/router/registry"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/registry/memory"
 )
 
 func testHttp(t *testing.T, path, service, ns string) {
-	r := registry.NewMemoryRegistry()
+	r := memory.NewRegistry()
 
 	l, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {

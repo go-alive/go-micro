@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/asim/go-micro/v3/logger"
+	"github.com/go-alive/go-micro/logger"
 )
 
 var (

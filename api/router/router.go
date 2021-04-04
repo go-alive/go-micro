@@ -4,7 +4,7 @@ package router
 import (
 	"net/http"
 
-	"github.com/asim/go-micro/v3/api"
+	"github.com/go-alive/go-micro/api"
 )
 
 // Router is used to determine an endpoint for a request

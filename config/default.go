@@ -5,11 +5,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/config/loader"
-	"github.com/asim/go-micro/v3/config/loader/memory"
-	"github.com/asim/go-micro/v3/config/reader"
-	"github.com/asim/go-micro/v3/config/reader/json"
-	"github.com/asim/go-micro/v3/config/source"
+	"github.com/go-alive/go-micro/config/loader"
+	"github.com/go-alive/go-micro/config/loader/memory"
+	"github.com/go-alive/go-micro/config/reader"
+	"github.com/go-alive/go-micro/config/reader/json"
+	"github.com/go-alive/go-micro/config/source"
 )
 
 type config struct {

@@ -7,10 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/registry"
-	util "github.com/asim/go-micro/v3/util/registry"
-	"golang.org/x/sync/singleflight"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/registry"
+	util "github.com/go-alive/go-micro/util/registry"
 )
 
 // Cache is the registry cache interface
@@ -47,8 +46,6 @@ type cache struct {
 	// used to hold onto the cache
 	// in failure state
 	status error
-	// used to prevent cache breakdwon
-	sg singleflight.Group
 }
 
 var (
@@ -135,10 +132,7 @@ func (c *cache) get(service string) ([]*registry.Service, error) {
 	// get does the actual request for a service and cache it
 	get := func(service string, cached []*registry.Service) ([]*registry.Service, error) {
 		// ask the registry
-		val, err, _ := c.sg.Do(service, func() (interface{}, error) {
-			return c.Registry.GetService(service)
-		})
-		services, _ := val.([]*registry.Service)
+		services, err := c.Registry.GetService(service)
 		if err != nil {
 			// check the cache
 			if len(cached) > 0 {
@@ -305,12 +299,6 @@ func (c *cache) update(res *registry.Result) {
 
 		// save
 		c.set(service.Name, srvs)
-	case "override":
-		if service == nil {
-			return
-		}
-
-		c.del(service.Name)
 	}
 }
 

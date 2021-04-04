@@ -8,10 +8,10 @@ import (
 	"os"
 	"sync"
 
-	"github.com/asim/go-micro/v3/api/server"
-	"github.com/asim/go-micro/v3/api/server/cors"
-	"github.com/asim/go-micro/v3/logger"
 	"github.com/gorilla/handlers"
+	"github.com/go-alive/go-micro/api/server"
+	"github.com/go-alive/go-micro/api/server/cors"
+	"github.com/go-alive/go-micro/logger"
 )
 
 type httpServer struct {

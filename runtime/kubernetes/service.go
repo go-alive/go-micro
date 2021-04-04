@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/runtime"
-	"github.com/asim/go-micro/v3/util/kubernetes/api"
-	"github.com/asim/go-micro/v3/util/kubernetes/client"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/runtime"
+	"github.com/go-alive/go-micro/util/kubernetes/api"
+	"github.com/go-alive/go-micro/util/kubernetes/client"
 )
 
 type service struct {

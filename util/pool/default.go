@@ -4,8 +4,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/transport"
 	"github.com/google/uuid"
+	"github.com/go-alive/go-micro/transport"
 )
 
 type pool struct {

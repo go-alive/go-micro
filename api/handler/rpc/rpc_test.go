@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"testing"
 
-	go_api "github.com/asim/go-micro/v3/api/proto"
 	"github.com/golang/protobuf/proto"
+	go_api "github.com/go-alive/go-micro/api/proto"
 )
 
 func TestRequestPayloadFromRequest(t *testing.T) {

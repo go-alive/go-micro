@@ -4,8 +4,8 @@ import (
 	"context"
 	"crypto/tls"
 
-	"github.com/asim/go-micro/v3/codec"
-	"github.com/asim/go-micro/v3/registry"
+	"github.com/go-alive/go-micro/codec"
+	"github.com/go-alive/go-micro/registry"
 )
 
 type Options struct {

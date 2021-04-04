@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/asim/go-micro/v3/metadata"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/selector"
+	"github.com/go-alive/go-micro/client/selector"
+	"github.com/go-alive/go-micro/metadata"
+	"github.com/go-alive/go-micro/registry"
 )
 
 // Write sets the status and body on a http ResponseWriter

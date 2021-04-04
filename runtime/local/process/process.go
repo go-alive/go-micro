@@ -4,7 +4,7 @@ package process
 import (
 	"io"
 
-	"github.com/asim/go-micro/v3/runtime/local/build"
+	"github.com/go-alive/go-micro/runtime/local/build"
 )
 
 // Process manages a running process

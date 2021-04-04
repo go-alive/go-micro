@@ -3,8 +3,8 @@ package cli
 import (
 	"context"
 
-	"github.com/asim/go-micro/v3/config/source"
-	"github.com/micro/cli/v2"
+	"github.com/go-alive/cli"
+	"github.com/go-alive/go-micro/config/source"
 )
 
 type contextKey struct{}

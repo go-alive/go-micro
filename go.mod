@@ -1,12 +1,19 @@
-module github.com/asim/go-micro/v3
+module github.com/go-alive/go-micro
 
 go 1.13
 
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.8
 
+replace github.com/go-alive/go-micro => /Users/unlikezhang/go/src/github.com/go-alive/go-micro
+
+replace github.com/go-alive/micro => /Users/unlikezhang/go/src/github.com/go-alive/micro
+
+replace github.com/go-alive/cli => /Users/unlikezhang/go/src/github.com/go-alive/cli
+
 require (
 	github.com/bitly/go-simplejson v0.5.0
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
+	github.com/coreos/etcd v3.3.18+incompatible // indirect
 	github.com/ef-ds/deque v1.0.4-0.20190904040645-54cb57c252a1
 	github.com/evanphx/json-patch/v5 v5.0.0
 	github.com/fsnotify/fsnotify v1.4.9

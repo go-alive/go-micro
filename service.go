@@ -7,17 +7,18 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/asim/go-micro/v3/client"
-	"github.com/asim/go-micro/v3/cmd"
-	"github.com/asim/go-micro/v3/debug/handler"
-	"github.com/asim/go-micro/v3/debug/stats"
-	"github.com/asim/go-micro/v3/debug/trace"
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/plugins"
-	"github.com/asim/go-micro/v3/server"
-	"github.com/asim/go-micro/v3/store"
-	signalutil "github.com/asim/go-micro/v3/util/signal"
-	"github.com/asim/go-micro/v3/util/wrapper"
+	"github.com/go-alive/go-micro/auth"
+	"github.com/go-alive/go-micro/client"
+	"github.com/go-alive/go-micro/config/cmd"
+	"github.com/go-alive/go-micro/debug/service/handler"
+	"github.com/go-alive/go-micro/debug/stats"
+	"github.com/go-alive/go-micro/debug/trace"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/plugin"
+	"github.com/go-alive/go-micro/server"
+	"github.com/go-alive/go-micro/store"
+	signalutil "github.com/go-alive/go-micro/util/signal"
+	"github.com/go-alive/go-micro/util/wrapper"
 )
 
 type service struct {
@@ -33,14 +34,21 @@ func newService(opts ...Option) Service {
 	// service name
 	serviceName := options.Server.Options().Name
 
+	// we pass functions to the wrappers since the values can change during initialisation
+	authFn := func() auth.Auth { return options.Server.Options().Auth }
+	cacheFn := func() *client.Cache { return options.Client.Options().Cache }
+
 	// wrap client to inject From-Service header on any calls
 	options.Client = wrapper.FromService(serviceName, options.Client)
 	options.Client = wrapper.TraceCall(serviceName, trace.DefaultTracer, options.Client)
+	options.Client = wrapper.CacheClient(cacheFn, options.Client)
+	options.Client = wrapper.AuthClient(authFn, options.Client)
 
 	// wrap the server to provide handler stats
 	options.Server.Init(
 		server.WrapHandler(wrapper.HandlerStats(stats.DefaultStats)),
 		server.WrapHandler(wrapper.TraceHandler(trace.DefaultTracer)),
+		server.WrapHandler(wrapper.AuthHandler(authFn)),
 	)
 
 	// set opts

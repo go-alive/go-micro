@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"github.com/asim/go-micro/v3/api/router"
-	"github.com/asim/go-micro/v3/client"
+	"github.com/go-alive/go-micro/api/router"
+	"github.com/go-alive/go-micro/client"
+	"github.com/go-alive/go-micro/client/grpc"
 )
 
 var (
@@ -26,7 +27,7 @@ func NewOptions(opts ...Option) Options {
 	}
 
 	if options.Client == nil {
-		WithClient(client.NewClient())(&options)
+		WithClient(grpc.NewClient())(&options)
 	}
 
 	// set namespace if blank

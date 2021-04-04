@@ -2,7 +2,7 @@
 package build
 
 import (
-	"github.com/asim/go-micro/v3/runtime/local/source"
+	"github.com/go-alive/go-micro/runtime/local/source"
 )
 
 // Builder builds binaries

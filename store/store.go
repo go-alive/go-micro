@@ -11,7 +11,7 @@ var (
 	// ErrNotFound is returned when a key doesn't exist
 	ErrNotFound = errors.New("not found")
 	// DefaultStore is the memory store.
-	DefaultStore Store = NewStore()
+	DefaultStore Store = new(noopStore)
 )
 
 // Store is a data storage interface
@@ -44,8 +44,4 @@ type Record struct {
 	Metadata map[string]interface{} `json:"metadata"`
 	// Time to expire a record: TODO: change to timestamp
 	Expiry time.Duration `json:"expiry,omitempty"`
-}
-
-func NewStore(opts ...Option) Store {
-	return NewMemoryStore(opts...)
 }

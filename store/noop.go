@@ -33,7 +33,3 @@ func (n *noopStore) List(opts ...ListOption) ([]string, error) {
 func (n *noopStore) Close() error {
 	return nil
 }
-
-func NewNoopStore(opts ...Option) Store {
-	return new(noopStore)
-}

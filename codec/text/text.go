@@ -6,7 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/asim/go-micro/v3/codec"
+	"github.com/go-alive/go-micro/codec"
 )
 
 type Codec struct {

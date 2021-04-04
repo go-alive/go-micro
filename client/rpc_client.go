@@ -6,18 +6,18 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/asim/go-micro/v3/broker"
-	"github.com/asim/go-micro/v3/codec"
-	raw "github.com/asim/go-micro/v3/codec/bytes"
-	"github.com/asim/go-micro/v3/errors"
-	"github.com/asim/go-micro/v3/metadata"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/selector"
-	"github.com/asim/go-micro/v3/transport"
-	"github.com/asim/go-micro/v3/util/buf"
-	"github.com/asim/go-micro/v3/util/net"
-	"github.com/asim/go-micro/v3/util/pool"
 	"github.com/google/uuid"
+	"github.com/go-alive/go-micro/broker"
+	"github.com/go-alive/go-micro/client/selector"
+	"github.com/go-alive/go-micro/codec"
+	raw "github.com/go-alive/go-micro/codec/bytes"
+	"github.com/go-alive/go-micro/errors"
+	"github.com/go-alive/go-micro/metadata"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/transport"
+	"github.com/go-alive/go-micro/util/buf"
+	"github.com/go-alive/go-micro/util/net"
+	"github.com/go-alive/go-micro/util/pool"
 )
 
 type rpcClient struct {
@@ -379,7 +379,7 @@ func (r *rpcClient) Call(ctx context.Context, request Request, response interfac
 	} else {
 		// got a deadline so no need to setup context
 		// but we need to set the timeout we pass along
-		opt := WithRequestTimeout(time.Until(d))
+		opt := WithRequestTimeout(d.Sub(time.Now()))
 		opt(&callOpts)
 	}
 

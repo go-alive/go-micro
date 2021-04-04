@@ -4,7 +4,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/asim/go-micro/v3/client"
+	"github.com/go-alive/go-micro/client"
 )
 
 type Option func(o *Options)

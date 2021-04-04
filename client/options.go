@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/asim/go-micro/v3/broker"
-	"github.com/asim/go-micro/v3/codec"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/selector"
-	"github.com/asim/go-micro/v3/transport"
+	"github.com/go-alive/go-micro/broker"
+	"github.com/go-alive/go-micro/client/selector"
+	"github.com/go-alive/go-micro/codec"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/transport"
 )
 
 type Options struct {

@@ -1,4 +1,4 @@
-// Package kubernetes taken from https://github.com/micro/go-micro/blob/master/debug/log/kubernetes/kubernetes.go
+// Package kubernetes taken from https://github.com/go-alive/go-micro/blob/master/debug/log/kubernetes/kubernetes.go
 // There are some modifications compared to the other files as
 // this package doesn't provide write functionality.
 // With the write functionality gone, structured logs also go away.
@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/asim/go-micro/v3/runtime"
-	"github.com/asim/go-micro/v3/util/kubernetes/client"
-	"github.com/asim/go-micro/v3/util/log"
+	"github.com/go-alive/go-micro/runtime"
+	"github.com/go-alive/go-micro/util/kubernetes/client"
+	"github.com/go-alive/go-micro/util/log"
 )
 
 type klog struct {
@@ -115,7 +115,7 @@ func (k *klog) Read() ([]runtime.LogRecord, error) {
 			logParams["tailLines"] = strconv.Itoa(int(k.options.Count))
 		}
 
-		if k.options.Stream {
+		if k.options.Stream == true {
 			logParams["follow"] = "true"
 		}
 

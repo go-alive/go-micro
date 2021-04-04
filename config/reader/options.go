@@ -1,8 +1,12 @@
 package reader
 
 import (
-	"github.com/asim/go-micro/v3/config/encoder"
-	"github.com/asim/go-micro/v3/config/encoder/json"
+	"github.com/go-alive/go-micro/config/encoder"
+	"github.com/go-alive/go-micro/config/encoder/hcl"
+	"github.com/go-alive/go-micro/config/encoder/json"
+	"github.com/go-alive/go-micro/config/encoder/toml"
+	"github.com/go-alive/go-micro/config/encoder/xml"
+	"github.com/go-alive/go-micro/config/encoder/yaml"
 )
 
 type Options struct {
@@ -15,6 +19,11 @@ func NewOptions(opts ...Option) Options {
 	options := Options{
 		Encoding: map[string]encoder.Encoder{
 			"json": json.NewEncoder(),
+			"yaml": yaml.NewEncoder(),
+			"toml": toml.NewEncoder(),
+			"xml":  xml.NewEncoder(),
+			"hcl":  hcl.NewEncoder(),
+			"yml":  yaml.NewEncoder(),
 		},
 	}
 	for _, o := range opts {

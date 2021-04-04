@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/runtime/local/git"
-	"github.com/nxadm/tail"
+	"github.com/hpcloud/tail"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/runtime/local/git"
 )
 
 // defaultNamespace to use if not provided as an option

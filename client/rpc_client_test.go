@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/asim/go-micro/v3/errors"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/selector"
+	"github.com/go-alive/go-micro/client/selector"
+	"github.com/go-alive/go-micro/errors"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/registry/memory"
 )
 
 func newTestRegistry() registry.Registry {
-	return registry.NewMemoryRegistry(registry.Services(testData))
+	return memory.NewRegistry(memory.Services(testData))
 }
 
 func TestCallAddress(t *testing.T) {

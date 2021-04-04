@@ -4,8 +4,8 @@ package micro
 import (
 	"context"
 
-	"github.com/asim/go-micro/v3/client"
-	"github.com/asim/go-micro/v3/server"
+	"github.com/go-alive/go-micro/client"
+	"github.com/go-alive/go-micro/server"
 )
 
 type serviceKey struct{}

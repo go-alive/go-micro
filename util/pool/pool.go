@@ -4,7 +4,7 @@ package pool
 import (
 	"time"
 
-	"github.com/asim/go-micro/v3/transport"
+	"github.com/go-alive/go-micro/transport"
 )
 
 // Pool is an interface for connection pooling

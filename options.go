@@ -4,20 +4,20 @@ import (
 	"context"
 	"time"
 
-	"github.com/asim/go-micro/v3/auth"
-	"github.com/asim/go-micro/v3/broker"
-	"github.com/asim/go-micro/v3/client"
-	"github.com/asim/go-micro/v3/cmd"
-	"github.com/asim/go-micro/v3/config"
-	"github.com/asim/go-micro/v3/debug/profile"
-	"github.com/asim/go-micro/v3/debug/trace"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/runtime"
-	"github.com/asim/go-micro/v3/selector"
-	"github.com/asim/go-micro/v3/server"
-	"github.com/asim/go-micro/v3/store"
-	"github.com/asim/go-micro/v3/transport"
-	"github.com/micro/cli/v2"
+	"github.com/go-alive/cli"
+	"github.com/go-alive/go-micro/auth"
+	"github.com/go-alive/go-micro/broker"
+	"github.com/go-alive/go-micro/client"
+	"github.com/go-alive/go-micro/client/selector"
+	"github.com/go-alive/go-micro/config"
+	"github.com/go-alive/go-micro/config/cmd"
+	"github.com/go-alive/go-micro/debug/profile"
+	"github.com/go-alive/go-micro/debug/trace"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/runtime"
+	"github.com/go-alive/go-micro/server"
+	"github.com/go-alive/go-micro/store"
+	"github.com/go-alive/go-micro/transport"
 )
 
 // Options for micro service
@@ -155,6 +155,7 @@ func Tracer(t trace.Tracer) Option {
 func Auth(a auth.Auth) Option {
 	return func(o *Options) {
 		o.Auth = a
+		o.Server.Init(server.Auth(a))
 	}
 }
 

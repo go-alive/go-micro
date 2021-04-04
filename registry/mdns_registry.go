@@ -15,9 +15,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/util/mdns"
 	"github.com/google/uuid"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/util/mdns"
 )
 
 var (

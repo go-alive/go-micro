@@ -6,10 +6,10 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/asim/go-micro/v3/client"
-	proto "github.com/asim/go-micro/v3/debug/proto"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/util/test"
+	"github.com/go-alive/go-micro/client"
+	proto "github.com/go-alive/go-micro/debug/service/proto"
+	"github.com/go-alive/go-micro/registry/memory"
+	"github.com/go-alive/go-micro/util/test"
 )
 
 func testShutdown(wg *sync.WaitGroup, cancel func()) {
@@ -25,7 +25,7 @@ func testService(ctx context.Context, wg *sync.WaitGroup, name string) Service {
 	// add self
 	wg.Add(1)
 
-	r := registry.NewMemoryRegistry(registry.Services(test.Data))
+	r := memory.NewRegistry(memory.Services(test.Data))
 
 	// create service
 	return NewService(

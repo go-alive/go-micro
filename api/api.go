@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/server"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/server"
 )
 
 type Api interface {

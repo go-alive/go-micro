@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"github.com/asim/go-micro/v3/registry"
+	"github.com/go-alive/go-micro/registry"
 )
 
 func addNodes(old, neu []*registry.Node) []*registry.Node {

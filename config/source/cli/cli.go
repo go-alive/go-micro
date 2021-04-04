@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/asim/go-micro/v3/cmd"
-	"github.com/asim/go-micro/v3/config/source"
 	"github.com/imdario/mergo"
-	"github.com/micro/cli/v2"
+	"github.com/go-alive/cli"
+	"github.com/go-alive/go-micro/config/cmd"
+	"github.com/go-alive/go-micro/config/source"
 )
 
 type cliSource struct {

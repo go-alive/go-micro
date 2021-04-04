@@ -3,7 +3,7 @@ package config
 import (
 	"time"
 
-	"github.com/asim/go-micro/v3/config/reader"
+	"github.com/go-alive/go-micro/config/reader"
 )
 
 type value struct{}

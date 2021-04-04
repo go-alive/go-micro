@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/debug/profile"
+	"github.com/go-alive/go-micro/debug/profile"
 )
 
 type profiler struct {

@@ -1,7 +1,7 @@
 package env
 
 import (
-	"github.com/asim/go-micro/v3/config/source"
+	"github.com/go-alive/go-micro/config/source"
 )
 
 type watcher struct {

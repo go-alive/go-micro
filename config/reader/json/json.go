@@ -4,11 +4,11 @@ import (
 	"errors"
 	"time"
 
-	"github.com/asim/go-micro/v3/config/encoder"
-	"github.com/asim/go-micro/v3/config/encoder/json"
-	"github.com/asim/go-micro/v3/config/reader"
-	"github.com/asim/go-micro/v3/config/source"
 	"github.com/imdario/mergo"
+	"github.com/go-alive/go-micro/config/encoder"
+	"github.com/go-alive/go-micro/config/encoder/json"
+	"github.com/go-alive/go-micro/config/reader"
+	"github.com/go-alive/go-micro/config/source"
 )
 
 type jsonReader struct {

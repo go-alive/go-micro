@@ -8,9 +8,9 @@ import (
 	"net/http/httputil"
 	"net/url"
 
-	"github.com/asim/go-micro/v3/api"
-	"github.com/asim/go-micro/v3/api/handler"
-	"github.com/asim/go-micro/v3/selector"
+	"github.com/go-alive/go-micro/api"
+	"github.com/go-alive/go-micro/api/handler"
+	"github.com/go-alive/go-micro/client/selector"
 )
 
 const (

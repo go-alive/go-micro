@@ -10,13 +10,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/asim/go-micro/v3/api"
-	"github.com/asim/go-micro/v3/api/router"
-	"github.com/asim/go-micro/v3/api/router/util"
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/metadata"
-	"github.com/asim/go-micro/v3/registry"
-	"github.com/asim/go-micro/v3/registry/cache"
+	"github.com/go-alive/go-micro/api"
+	"github.com/go-alive/go-micro/api/router"
+	"github.com/go-alive/go-micro/api/router/util"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/metadata"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/registry/cache"
 )
 
 // endpoint struct, that holds compiled pcre

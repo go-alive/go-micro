@@ -5,9 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/asim/go-micro/v3/broker"
-	"github.com/asim/go-micro/v3/registry"
 	"github.com/google/uuid"
+	"github.com/go-alive/go-micro/broker"
+	"github.com/go-alive/go-micro/registry"
+	"github.com/go-alive/go-micro/registry/memory"
 )
 
 var (
@@ -53,7 +54,7 @@ var (
 )
 
 func newTestRegistry() registry.Registry {
-	return registry.NewMemoryRegistry(registry.Services(testData))
+	return memory.NewRegistry(memory.Services(testData))
 }
 
 func sub(be *testing.B, c int) {

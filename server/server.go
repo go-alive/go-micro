@@ -7,11 +7,11 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/asim/go-micro/v3/codec"
-	"github.com/asim/go-micro/v3/logger"
-	"github.com/asim/go-micro/v3/registry"
-	signalutil "github.com/asim/go-micro/v3/util/signal"
 	"github.com/google/uuid"
+	"github.com/go-alive/go-micro/codec"
+	"github.com/go-alive/go-micro/logger"
+	"github.com/go-alive/go-micro/registry"
+	signalutil "github.com/go-alive/go-micro/util/signal"
 )
 
 // Server is a simple micro server abstraction

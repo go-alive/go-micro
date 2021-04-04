@@ -1,7 +1,7 @@
 package memory
 
 import (
-	"github.com/asim/go-micro/v3/debug/log"
+	"github.com/go-alive/go-micro/debug/log"
 )
 
 type logStream struct {

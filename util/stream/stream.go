@@ -5,10 +5,10 @@ import (
 	"context"
 	"sync"
 
-	"github.com/asim/go-micro/v3/client"
-	"github.com/asim/go-micro/v3/codec"
-	"github.com/asim/go-micro/v3/metadata"
-	"github.com/asim/go-micro/v3/server"
+	"github.com/go-alive/go-micro/client"
+	"github.com/go-alive/go-micro/codec"
+	"github.com/go-alive/go-micro/metadata"
+	"github.com/go-alive/go-micro/server"
 )
 
 type Stream interface {
