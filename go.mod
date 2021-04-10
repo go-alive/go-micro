@@ -4,12 +4,6 @@ go 1.13
 
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.8
 
-replace github.com/go-alive/go-micro => /Users/unlikezhang/go/src/github.com/go-alive/go-micro
-
-replace github.com/go-alive/micro => /Users/unlikezhang/go/src/github.com/go-alive/micro
-
-replace github.com/go-alive/cli => /Users/unlikezhang/go/src/github.com/go-alive/cli
-
 require (
 	github.com/bitly/go-simplejson v0.5.0
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
@@ -27,7 +21,6 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/handlers v1.4.2
 	github.com/imdario/mergo v0.3.9
-	github.com/micro/cli/v2 v2.1.2
 	github.com/miekg/dns v1.1.27
 	github.com/nxadm/tail v1.4.4
 	github.com/oxtoacart/bpool v0.0.0-20190530202638-03653db5a59c
