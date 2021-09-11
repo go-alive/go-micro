@@ -3,7 +3,6 @@ package cmd
 import (
 	"context"
 
-	"github.com/go-alive/go-micro/auth"
 	"github.com/go-alive/go-micro/broker"
 	"github.com/go-alive/go-micro/client"
 	"github.com/go-alive/go-micro/client/selector"
@@ -11,9 +10,7 @@ import (
 	"github.com/go-alive/go-micro/debug/profile"
 	"github.com/go-alive/go-micro/debug/trace"
 	"github.com/go-alive/go-micro/registry"
-	"github.com/go-alive/go-micro/runtime"
 	"github.com/go-alive/go-micro/server"
-	"github.com/go-alive/go-micro/store"
 	"github.com/go-alive/go-micro/transport"
 )
 
@@ -31,10 +28,7 @@ type Options struct {
 	Config    *config.Config
 	Client    *client.Client
 	Server    *server.Server
-	Runtime   *runtime.Runtime
-	Store     *store.Store
 	Tracer    *trace.Tracer
-	Auth      *auth.Auth
 	Profile   *profile.Profile
 
 	Brokers    map[string]func(...broker.Option) broker.Broker
@@ -44,10 +38,7 @@ type Options struct {
 	Selectors  map[string]func(...selector.Option) selector.Selector
 	Servers    map[string]func(...server.Option) server.Server
 	Transports map[string]func(...transport.Option) transport.Transport
-	Runtimes   map[string]func(...runtime.Option) runtime.Runtime
-	Stores     map[string]func(...store.Option) store.Store
 	Tracers    map[string]func(...trace.Option) trace.Tracer
-	Auths      map[string]func(...auth.Option) auth.Auth
 	Profiles   map[string]func(...profile.Option) profile.Profile
 
 	// Other options for implementations of the interface
@@ -100,12 +91,6 @@ func Registry(r *registry.Registry) Option {
 	}
 }
 
-func Runtime(r *runtime.Runtime) Option {
-	return func(o *Options) {
-		o.Runtime = r
-	}
-}
-
 func Transport(t *transport.Transport) Option {
 	return func(o *Options) {
 		o.Transport = t
@@ -124,21 +109,9 @@ func Server(s *server.Server) Option {
 	}
 }
 
-func Store(s *store.Store) Option {
-	return func(o *Options) {
-		o.Store = s
-	}
-}
-
 func Tracer(t *trace.Tracer) Option {
 	return func(o *Options) {
 		o.Tracer = t
-	}
-}
-
-func Auth(a *auth.Auth) Option {
-	return func(o *Options) {
-		o.Auth = a
 	}
 }
 
@@ -190,23 +163,9 @@ func NewTransport(name string, t func(...transport.Option) transport.Transport) 
 	}
 }
 
-// New runtime func
-func NewRuntime(name string, r func(...runtime.Option) runtime.Runtime) Option {
-	return func(o *Options) {
-		o.Runtimes[name] = r
-	}
-}
-
 // New tracer func
 func NewTracer(name string, t func(...trace.Option) trace.Tracer) Option {
 	return func(o *Options) {
 		o.Tracers[name] = t
-	}
-}
-
-// New auth func
-func NewAuth(name string, t func(...auth.Option) auth.Auth) Option {
-	return func(o *Options) {
-		o.Auths[name] = t
 	}
 }

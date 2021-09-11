@@ -7,7 +7,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/go-alive/go-micro/auth"
 	"github.com/go-alive/go-micro/client"
 	"github.com/go-alive/go-micro/config/cmd"
 	"github.com/go-alive/go-micro/debug/service/handler"
@@ -16,7 +15,6 @@ import (
 	"github.com/go-alive/go-micro/logger"
 	"github.com/go-alive/go-micro/plugin"
 	"github.com/go-alive/go-micro/server"
-	"github.com/go-alive/go-micro/store"
 	signalutil "github.com/go-alive/go-micro/util/signal"
 	"github.com/go-alive/go-micro/util/wrapper"
 )
@@ -34,21 +32,14 @@ func newService(opts ...Option) Service {
 	// service name
 	serviceName := options.Server.Options().Name
 
-	// we pass functions to the wrappers since the values can change during initialisation
-	authFn := func() auth.Auth { return options.Server.Options().Auth }
-	cacheFn := func() *client.Cache { return options.Client.Options().Cache }
-
 	// wrap client to inject From-Service header on any calls
 	options.Client = wrapper.FromService(serviceName, options.Client)
 	options.Client = wrapper.TraceCall(serviceName, trace.DefaultTracer, options.Client)
-	options.Client = wrapper.CacheClient(cacheFn, options.Client)
-	options.Client = wrapper.AuthClient(authFn, options.Client)
 
 	// wrap the server to provide handler stats
 	options.Server.Init(
 		server.WrapHandler(wrapper.HandlerStats(stats.DefaultStats)),
 		server.WrapHandler(wrapper.TraceHandler(trace.DefaultTracer)),
-		server.WrapHandler(wrapper.AuthHandler(authFn)),
 	)
 
 	// set opts
@@ -96,23 +87,16 @@ func (s *service) Init(opts ...Option) {
 
 		// Initialise the command flags, overriding new service
 		if err := s.opts.Cmd.Init(
-			cmd.Auth(&s.opts.Auth),
 			cmd.Broker(&s.opts.Broker),
 			cmd.Registry(&s.opts.Registry),
-			cmd.Runtime(&s.opts.Runtime),
 			cmd.Transport(&s.opts.Transport),
 			cmd.Client(&s.opts.Client),
 			cmd.Config(&s.opts.Config),
 			cmd.Server(&s.opts.Server),
-			cmd.Store(&s.opts.Store),
 			cmd.Profile(&s.opts.Profile),
 		); err != nil {
 			logger.Fatal(err)
 		}
-
-		// Explicitly set the table name to the service name
-		name := s.opts.Cmd.App().Name
-		s.opts.Store.Init(store.Table(name))
 	})
 }
 

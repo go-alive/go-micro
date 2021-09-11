@@ -7,8 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-alive/go-micro/auth"
-	"github.com/go-alive/go-micro/auth/provider"
 	"github.com/go-alive/go-micro/broker"
 	"github.com/go-alive/go-micro/client"
 	"github.com/go-alive/go-micro/client/grpc"
@@ -23,16 +21,12 @@ import (
 	"github.com/go-alive/go-micro/logger"
 	"github.com/go-alive/go-micro/registry"
 	registrySrv "github.com/go-alive/go-micro/registry/service"
-	"github.com/go-alive/go-micro/runtime"
 	"github.com/go-alive/go-micro/server"
-	"github.com/go-alive/go-micro/store"
 	"github.com/go-alive/go-micro/transport"
-	authutil "github.com/go-alive/go-micro/util/auth"
 	"github.com/go-alive/go-micro/util/wrapper"
 
 	// clients
 	cgrpc "github.com/go-alive/go-micro/client/grpc"
-	cmucp "github.com/go-alive/go-micro/client/mucp"
 
 	// servers
 	"github.com/go-alive/cli"
@@ -52,11 +46,6 @@ import (
 	rmem "github.com/go-alive/go-micro/registry/memory"
 	regSrv "github.com/go-alive/go-micro/registry/service"
 
-	// runtimes
-	kRuntime "github.com/go-alive/go-micro/runtime/kubernetes"
-	lRuntime "github.com/go-alive/go-micro/runtime/local"
-	srvRuntime "github.com/go-alive/go-micro/runtime/service"
-
 	// selectors
 	"github.com/go-alive/go-micro/client/selector/dns"
 	"github.com/go-alive/go-micro/client/selector/router"
@@ -66,21 +55,9 @@ import (
 	thttp "github.com/go-alive/go-micro/transport/http"
 	tmem "github.com/go-alive/go-micro/transport/memory"
 
-	// stores
-	memStore "github.com/go-alive/go-micro/store/memory"
-	svcStore "github.com/go-alive/go-micro/store/service"
-
 	// tracers
 	// jTracer "github.com/go-alive/go-micro/debug/trace/jaeger"
 	memTracer "github.com/go-alive/go-micro/debug/trace/memory"
-
-	// auth
-	jwtAuth "github.com/go-alive/go-micro/auth/jwt"
-	svcAuth "github.com/go-alive/go-micro/auth/service"
-
-	// auth providers
-	"github.com/go-alive/go-micro/auth/provider/basic"
-	"github.com/go-alive/go-micro/auth/provider/oauth"
 )
 
 type Cmd interface {
@@ -204,41 +181,9 @@ var (
 			Usage:   "Comma-separated list of registry addresses",
 		},
 		&cli.StringFlag{
-			Name:    "runtime",
-			Usage:   "Runtime for building and running services e.g local, kubernetes",
-			EnvVars: []string{"MICRO_RUNTIME"},
-			Value:   "local",
-		},
-		&cli.StringFlag{
-			Name:    "runtime_source",
-			Usage:   "Runtime source for building and running services e.g github.com/micro/service",
-			EnvVars: []string{"MICRO_RUNTIME_SOURCE"},
-			Value:   "github.com/micro/services",
-		},
-		&cli.StringFlag{
 			Name:    "selector",
 			EnvVars: []string{"MICRO_SELECTOR"},
 			Usage:   "Selector used to pick nodes for querying",
-		},
-		&cli.StringFlag{
-			Name:    "store",
-			EnvVars: []string{"MICRO_STORE"},
-			Usage:   "Store used for key-value storage",
-		},
-		&cli.StringFlag{
-			Name:    "store_address",
-			EnvVars: []string{"MICRO_STORE_ADDRESS"},
-			Usage:   "Comma-separated list of store addresses",
-		},
-		&cli.StringFlag{
-			Name:    "store_database",
-			EnvVars: []string{"MICRO_STORE_DATABASE"},
-			Usage:   "Database option for the underlying store",
-		},
-		&cli.StringFlag{
-			Name:    "store_table",
-			EnvVars: []string{"MICRO_STORE_TABLE"},
-			Usage:   "Table option for the underlying store",
 		},
 		&cli.StringFlag{
 			Name:    "transport",
@@ -261,67 +206,6 @@ var (
 			Usage:   "Comma-separated list of tracer addresses",
 		},
 		&cli.StringFlag{
-			Name:    "auth",
-			EnvVars: []string{"MICRO_AUTH"},
-			Usage:   "Auth for role based access control, e.g. service",
-		},
-		&cli.StringFlag{
-			Name:    "auth_id",
-			EnvVars: []string{"MICRO_AUTH_ID"},
-			Usage:   "Account ID used for client authentication",
-		},
-		&cli.StringFlag{
-			Name:    "auth_secret",
-			EnvVars: []string{"MICRO_AUTH_SECRET"},
-			Usage:   "Account secret used for client authentication",
-		},
-		&cli.StringFlag{
-			Name:    "auth_namespace",
-			EnvVars: []string{"MICRO_AUTH_NAMESPACE"},
-			Usage:   "Namespace for the services auth account",
-			Value:   "go.micro",
-		},
-		&cli.StringFlag{
-			Name:    "auth_public_key",
-			EnvVars: []string{"MICRO_AUTH_PUBLIC_KEY"},
-			Usage:   "Public key for JWT auth (base64 encoded PEM)",
-		},
-		&cli.StringFlag{
-			Name:    "auth_private_key",
-			EnvVars: []string{"MICRO_AUTH_PRIVATE_KEY"},
-			Usage:   "Private key for JWT auth (base64 encoded PEM)",
-		},
-		&cli.StringFlag{
-			Name:    "auth_provider",
-			EnvVars: []string{"MICRO_AUTH_PROVIDER"},
-			Usage:   "Auth provider used to login user",
-		},
-		&cli.StringFlag{
-			Name:    "auth_provider_client_id",
-			EnvVars: []string{"MICRO_AUTH_PROVIDER_CLIENT_ID"},
-			Usage:   "The client id to be used for oauth",
-		},
-		&cli.StringFlag{
-			Name:    "auth_provider_client_secret",
-			EnvVars: []string{"MICRO_AUTH_PROVIDER_CLIENT_SECRET"},
-			Usage:   "The client secret to be used for oauth",
-		},
-		&cli.StringFlag{
-			Name:    "auth_provider_endpoint",
-			EnvVars: []string{"MICRO_AUTH_PROVIDER_ENDPOINT"},
-			Usage:   "The enpoint to be used for oauth",
-		},
-		&cli.StringFlag{
-			Name:    "auth_provider_redirect",
-			EnvVars: []string{"MICRO_AUTH_PROVIDER_REDIRECT"},
-			Usage:   "The redirect to be used for oauth",
-		},
-		&cli.StringFlag{
-			Name:    "auth_provider_scope",
-			EnvVars: []string{"MICRO_AUTH_PROVIDER_SCOPE"},
-			Usage:   "The scope to be used for oauth",
-		},
-		&cli.StringFlag{
 			Name:    "config",
 			EnvVars: []string{"MICRO_CONFIG"},
 			Usage:   "The source of the config to be used to get configuration",
@@ -336,7 +220,6 @@ var (
 	}
 
 	DefaultClients = map[string]func(...client.Option) client.Client{
-		"mucp": cmucp.NewClient,
 		"grpc": cgrpc.NewClient,
 	}
 
@@ -363,30 +246,9 @@ var (
 		"http":   thttp.NewTransport,
 	}
 
-	DefaultRuntimes = map[string]func(...runtime.Option) runtime.Runtime{
-		"local":      lRuntime.NewRuntime,
-		"service":    srvRuntime.NewRuntime,
-		"kubernetes": kRuntime.NewRuntime,
-	}
-
-	DefaultStores = map[string]func(...store.Option) store.Store{
-		"memory":  memStore.NewStore,
-		"service": svcStore.NewStore,
-	}
-
 	DefaultTracers = map[string]func(...trace.Option) trace.Tracer{
 		"memory": memTracer.NewTracer,
 		// "jaeger": jTracer.NewTracer,
-	}
-
-	DefaultAuths = map[string]func(...auth.Option) auth.Auth{
-		"service": svcAuth.NewAuth,
-		"jwt":     jwtAuth.NewAuth,
-	}
-
-	DefaultAuthProviders = map[string]func(...provider.Option) provider.Provider{
-		"oauth": oauth.NewProvider,
-		"basic": basic.NewProvider,
 	}
 
 	DefaultProfiles = map[string]func(...profile.Option) profile.Profile{
@@ -405,15 +267,12 @@ func init() {
 
 func newCmd(opts ...Option) Cmd {
 	options := Options{
-		Auth:      &auth.DefaultAuth,
 		Broker:    &broker.DefaultBroker,
 		Client:    &client.DefaultClient,
 		Registry:  &registry.DefaultRegistry,
 		Server:    &server.DefaultServer,
 		Selector:  &selector.DefaultSelector,
 		Transport: &transport.DefaultTransport,
-		Runtime:   &runtime.DefaultRuntime,
-		Store:     &store.DefaultStore,
 		Tracer:    &trace.DefaultTracer,
 		Profile:   &profile.DefaultProfile,
 		Config:    &config.DefaultConfig,
@@ -424,10 +283,7 @@ func newCmd(opts ...Option) Cmd {
 		Selectors:  DefaultSelectors,
 		Servers:    DefaultServers,
 		Transports: DefaultTransports,
-		Runtimes:   DefaultRuntimes,
-		Stores:     DefaultStores,
 		Tracers:    DefaultTracers,
-		Auths:      DefaultAuths,
 		Profiles:   DefaultProfiles,
 		Configs:    DefaultConfigs,
 	}
@@ -475,30 +331,8 @@ func (c *cmd) Before(ctx *cli.Context) error {
 	// setup a client to use when calling the runtime. It is important the auth client is wrapped
 	// after the cache client since the wrappers are applied in reverse order and the cache will use
 	// some of the headers set by the auth client.
-	authFn := func() auth.Auth { return *c.opts.Auth }
 	cacheFn := func() *client.Cache { return (*c.opts.Client).Options().Cache }
 	microClient := wrapper.CacheClient(cacheFn, grpc.NewClient())
-	microClient = wrapper.AuthClient(authFn, microClient)
-
-	// Set the store
-	if name := ctx.String("store"); len(name) > 0 {
-		s, ok := c.opts.Stores[name]
-		if !ok {
-			return fmt.Errorf("Unsupported store: %s", name)
-		}
-
-		*c.opts.Store = s(store.WithClient(microClient))
-	}
-
-	// Set the runtime
-	if name := ctx.String("runtime"); len(name) > 0 {
-		r, ok := c.opts.Runtimes[name]
-		if !ok {
-			return fmt.Errorf("Unsupported runtime: %s", name)
-		}
-
-		*c.opts.Runtime = r(runtime.WithClient(microClient))
-	}
 
 	// Set the tracer
 	if name := ctx.String("tracer"); len(name) > 0 {
@@ -526,60 +360,6 @@ func (c *cmd) Before(ctx *cli.Context) error {
 		}
 	}
 
-	// Setup auth
-	authOpts := []auth.Option{auth.WithClient(microClient)}
-
-	if len(ctx.String("auth_id")) > 0 || len(ctx.String("auth_secret")) > 0 {
-		authOpts = append(authOpts, auth.Credentials(
-			ctx.String("auth_id"), ctx.String("auth_secret"),
-		))
-	}
-	if len(ctx.String("auth_public_key")) > 0 {
-		authOpts = append(authOpts, auth.PublicKey(ctx.String("auth_public_key")))
-	}
-	if len(ctx.String("auth_private_key")) > 0 {
-		authOpts = append(authOpts, auth.PrivateKey(ctx.String("auth_private_key")))
-	}
-	if len(ctx.String("auth_namespace")) > 0 {
-		authOpts = append(authOpts, auth.Namespace(ctx.String("auth_namespace")))
-	}
-	if name := ctx.String("auth_provider"); len(name) > 0 {
-		p, ok := DefaultAuthProviders[name]
-		if !ok {
-			return fmt.Errorf("AuthProvider %s not found", name)
-		}
-
-		var provOpts []provider.Option
-		clientID := ctx.String("auth_provider_client_id")
-		clientSecret := ctx.String("auth_provider_client_secret")
-		if len(clientID) > 0 || len(clientSecret) > 0 {
-			provOpts = append(provOpts, provider.Credentials(clientID, clientSecret))
-		}
-		if e := ctx.String("auth_provider_endpoint"); len(e) > 0 {
-			provOpts = append(provOpts, provider.Endpoint(e))
-		}
-		if r := ctx.String("auth_provider_redirect"); len(r) > 0 {
-			provOpts = append(provOpts, provider.Redirect(r))
-		}
-		if s := ctx.String("auth_provider_scope"); len(s) > 0 {
-			provOpts = append(provOpts, provider.Scope(s))
-		}
-
-		authOpts = append(authOpts, auth.Provider(p(provOpts...)))
-	}
-
-	// Set the auth
-	if name := ctx.String("auth"); len(name) > 0 {
-		a, ok := c.opts.Auths[name]
-		if !ok {
-			return fmt.Errorf("Unsupported auth: %s", name)
-		}
-		*c.opts.Auth = a(authOpts...)
-		serverOpts = append(serverOpts, server.Auth(*c.opts.Auth))
-	} else {
-		(*c.opts.Auth).Init(authOpts...)
-	}
-
 	// Set the registry
 	if name := ctx.String("registry"); len(name) > 0 && (*c.opts.Registry).String() != name {
 		r, ok := c.opts.Registries[name]
@@ -600,12 +380,6 @@ func (c *cmd) Before(ctx *cli.Context) error {
 		if err := (*c.opts.Broker).Init(broker.Registry(*c.opts.Registry)); err != nil {
 			logger.Fatalf("Error configuring broker: %v", err)
 		}
-	}
-
-	// generate the services auth account
-	serverID := (*c.opts.Server).Options().Id
-	if err := authutil.Generate(serverID, c.App().Name, (*c.opts.Auth)); err != nil {
-		return err
 	}
 
 	// Set the profile
@@ -689,24 +463,6 @@ func (c *cmd) Before(ctx *cli.Context) error {
 		}
 	}
 
-	if len(ctx.String("store_address")) > 0 {
-		if err := (*c.opts.Store).Init(store.Nodes(strings.Split(ctx.String("store_address"), ",")...)); err != nil {
-			logger.Fatalf("Error configuring store: %v", err)
-		}
-	}
-
-	if len(ctx.String("store_database")) > 0 {
-		if err := (*c.opts.Store).Init(store.Database(ctx.String("store_database"))); err != nil {
-			logger.Fatalf("Error configuring store database option: %v", err)
-		}
-	}
-
-	if len(ctx.String("store_table")) > 0 {
-		if err := (*c.opts.Store).Init(store.Table(ctx.String("store_table"))); err != nil {
-			logger.Fatalf("Error configuring store table option: %v", err)
-		}
-	}
-
 	if len(ctx.String("server_name")) > 0 {
 		serverOpts = append(serverOpts, server.Name(ctx.String("server_name")))
 	}
@@ -733,12 +489,6 @@ func (c *cmd) Before(ctx *cli.Context) error {
 
 	if val := time.Duration(ctx.Int("register_interval")); val >= 0 {
 		serverOpts = append(serverOpts, server.RegisterInterval(val*time.Second))
-	}
-
-	if len(ctx.String("runtime_source")) > 0 {
-		if err := (*c.opts.Runtime).Init(runtime.WithSource(ctx.String("runtime_source"))); err != nil {
-			logger.Fatalf("Error configuring runtime: %v", err)
-		}
 	}
 
 	if ctx.String("config") == "service" {

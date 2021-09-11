@@ -14,7 +14,6 @@ import (
 	"github.com/go-alive/go-micro/debug/profile"
 	"github.com/go-alive/go-micro/debug/trace"
 	"github.com/go-alive/go-micro/registry"
-	"github.com/go-alive/go-micro/runtime"
 	"github.com/go-alive/go-micro/server"
 	"github.com/go-alive/go-micro/store"
 	"github.com/go-alive/go-micro/transport"
@@ -30,7 +29,6 @@ type Options struct {
 	Server    server.Server
 	Store     store.Store
 	Registry  registry.Registry
-	Runtime   runtime.Runtime
 	Transport transport.Transport
 	Profile   profile.Profile
 
@@ -57,7 +55,6 @@ func newOptions(opts ...Option) Options {
 		Server:    server.DefaultServer,
 		Store:     store.DefaultStore,
 		Registry:  registry.DefaultRegistry,
-		Runtime:   runtime.DefaultRuntime,
 		Transport: transport.DefaultTransport,
 		Context:   context.Background(),
 		Signal:    true,
@@ -181,13 +178,6 @@ func Transport(t transport.Transport) Option {
 		// Update Client and Server
 		o.Client.Init(client.Transport(t))
 		o.Server.Init(server.Transport(t))
-	}
-}
-
-// Runtime sets the runtime
-func Runtime(r runtime.Runtime) Option {
-	return func(o *Options) {
-		o.Runtime = r
 	}
 }
 
