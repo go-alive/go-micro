@@ -15,7 +15,6 @@ import (
 	"github.com/go-alive/go-micro/debug/trace"
 	"github.com/go-alive/go-micro/registry"
 	"github.com/go-alive/go-micro/server"
-	"github.com/go-alive/go-micro/store"
 	"github.com/go-alive/go-micro/transport"
 )
 
@@ -27,7 +26,6 @@ type Options struct {
 	Config    config.Config
 	Client    client.Client
 	Server    server.Server
-	Store     store.Store
 	Registry  registry.Registry
 	Transport transport.Transport
 	Profile   profile.Profile
@@ -53,7 +51,6 @@ func newOptions(opts ...Option) Options {
 		Config:    config.DefaultConfig,
 		Client:    client.DefaultClient,
 		Server:    server.DefaultServer,
-		Store:     store.DefaultStore,
 		Registry:  registry.DefaultRegistry,
 		Transport: transport.DefaultTransport,
 		Context:   context.Background(),
@@ -118,13 +115,6 @@ func Profile(p profile.Profile) Option {
 func Server(s server.Server) Option {
 	return func(o *Options) {
 		o.Server = s
-	}
-}
-
-// Store sets the store to use
-func Store(s store.Store) Option {
-	return func(o *Options) {
-		o.Store = s
 	}
 }
 
